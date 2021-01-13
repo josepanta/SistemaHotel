@@ -104,7 +104,10 @@
       "searching": true,
       "buttons": [
         {
-          'text': "Agregar"
+          'text': "Agregar",
+          'action': function(){
+            window.location.href="{{ route('habitaciones.create') }}";
+          }
         }
         ,"copy", "csv", "excel", "pdf", "print", "colvis"
       ],

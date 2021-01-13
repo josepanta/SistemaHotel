@@ -26,7 +26,7 @@ class TipoHabitacionesController extends Controller
      */
     public function create()
     {
-        //
+        return view('habitacion.tipo_habitacion.create');
     }
 
     /**
