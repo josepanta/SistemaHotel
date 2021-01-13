@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TipoUser;
 use Illuminate\Http\Request;
 
 class TipoUsersController extends Controller
@@ -13,7 +14,9 @@ class TipoUsersController extends Controller
      */
     public function index()
     {
-        //
+        $tipo_users = TipoUser::all();
+
+        return view('users.tipo_users.index', compact('tipo_users'));
     }
 
     /**

@@ -100,7 +100,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a id="nav_item_option_tipo_users" href="" class="nav-link">
+                                        <a id="nav_item_option_tipo_users" href="{{ route('tipo_users.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tipo Usuarios</p>
                                         </a>
@@ -123,7 +123,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a id="nav_item_option_tipo_reservas" href="./index2.html" class="nav-link">
+                                        <a id="nav_item_option_tipo_reservas" href="{{ route('tipo_reservas.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tipo Reservas</p>
                                         </a>
@@ -146,7 +146,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a id="nav_item_option_tipo_habitaciones" href="" class="nav-link">
+                                        <a id="nav_item_option_tipo_habitaciones" href="{{ route('tipo_habitaciones.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tipo Habitaciones</p>
                                         </a>

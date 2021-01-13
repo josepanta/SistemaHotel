@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TipoReserva;
 use Illuminate\Http\Request;
 
 class TipoReservasController extends Controller
@@ -13,7 +14,8 @@ class TipoReservasController extends Controller
      */
     public function index()
     {
-        //
+        $tipo_reservas = TipoReserva::all();
+        return view('reservar.tipo_reservar.index', compact('tipo_reservas'));
     }
 
     /**
