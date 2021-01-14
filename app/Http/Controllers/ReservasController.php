@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reserva;
+use App\Models\TipoReserva;
+use App\Models\User;
 
 class ReservasController extends Controller
 {
@@ -25,7 +27,11 @@ class ReservasController extends Controller
      */
     public function create()
     {
-        //
+        $tipo_reservas = TipoReserva::all();
+        $users = User::all();
+        $estados = ['Reservada', 'Check-in', 'Check_out', 'Cancelada'];
+
+        return view('reservar.create', compact('tipo_reservas', 'users', 'estados'));
     }
 
     /**

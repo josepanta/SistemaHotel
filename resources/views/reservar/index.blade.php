@@ -105,7 +105,10 @@
       "searching": true,
       "buttons": [
         {
-          'text': "Agregar"
+          'text': "Agregar",
+          'action': function(){
+            window.location.href = "{{ route('reservas.create') }}"
+          }
         }
         ,"copy", "csv", "excel", "pdf", "print", "colvis"
       ],

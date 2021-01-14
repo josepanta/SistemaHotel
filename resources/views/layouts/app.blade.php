@@ -6,6 +6,8 @@
         <link rel="icon" href="{{ asset('img/favicon.ico') }}">
         <title>{{ config('app.name', 'SistemaHotel') }}</title>
 
+        @yield('specific_css')
+
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome Icons -->
@@ -13,7 +15,6 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
-        @yield('specific_css')
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
