@@ -22,7 +22,7 @@ class ReservaFactory extends Factory
     public function definition()
     {
         return [
-            'estado' => $this->faker->randomElement(['reservada', 'check-in', 'check_out', 'cancelada']),
+            'estado' => $this->faker->randomElement(['Reservada', 'Check-in', 'Check_out', 'Cancelada']),
 
             'tipo_reserva_id' => $this->faker->numberBetween(1, 5),
             'user_id'=> $this->faker->numberBetween(1, 10),

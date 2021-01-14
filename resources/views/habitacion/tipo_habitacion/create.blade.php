@@ -36,17 +36,17 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-sm-8">
-                        <label for="habitacion_nombre">Nombre</label>
-                        <input type="text" class="form-control" id="habitacion_nombre" placeholder="Nombre">
+                        <label for="tipo_habitacion_nombre">Nombre</label>
+                        <input type="text" class="form-control" id="tipo_habitacion_nombre" placeholder="Nombre">
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="habitacion_precio">Precio</label>
-                        <input type="number" step="0.01" class="form-control" id="habitacion_precio " placeholder="Precio">
+                        <label for="tipo_habitacion_precio">Precio</label>
+                        <input type="number" step="0.01" class="form-control" id="tipo_habitacion_precio" placeholder="Precio">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="habitacion_descripcion">Descripcion</label>
-                      <textarea id="habitacion_descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;"></textarea>
+                      <label for="tipo_habitacion_descripcion">Descripcion</label>
+                      <textarea id="tipo_habitacion_descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;"></textarea>
                     </div>
                   </div>
                   <!-- /.card-body -->

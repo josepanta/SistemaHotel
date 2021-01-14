@@ -15,7 +15,7 @@ class CreateReservasTable extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('estado', ['reservada', 'check-in', 'check_out', 'cancelada']);
+            $table->enum('estado', ['Reservada', 'Check-in', 'Check_out', 'Cancelada']);
             $table->timestamps();
 
             $table->unsignedInteger('tipo_reserva_id');

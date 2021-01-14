@@ -22,7 +22,8 @@ class HabitacioneFactory extends Factory
     public function definition()
     {
         return [
-            'estado' => $this->faker->randomElement(['ocupada', 'libre', 'mantenimiento']),
+            'letra_numero'=> $this->faker->unique()->bothify('?-##'),
+            'estado' => $this->faker->randomElement(['Ocupada', 'Libre', 'Mantenimiento']),
             'tipo_habitacion_id' => $this->faker->numberBetween(1, 5),
         ];
     }
