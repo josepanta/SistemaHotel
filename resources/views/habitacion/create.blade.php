@@ -41,7 +41,7 @@
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="habitacion_precio">Estado</label>
-                        <select class="form-control select2">
+                        <select class="form-control select">
                           @foreach($estados as $estado)
                             <option value="{{ $estado }}">{{ $estado }}</option>
                           @endforeach
@@ -49,7 +49,7 @@
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="habitacion_descripcion">Tipo de Habitacion</label>
-                        <select class="form-control select2">
+                        <select class="form-control select">
                           @foreach($tipo_habitaciones as $tipo_habitacion)
                             <option value="{{ $tipo_habitacion->id }}">{{ $tipo_habitacion->nombre }}</option>
                           @endforeach

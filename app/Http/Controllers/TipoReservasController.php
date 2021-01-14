@@ -25,7 +25,7 @@ class TipoReservasController extends Controller
      */
     public function create()
     {
-        //
+        return view('reservar.tipo_reservar.create');
     }
 
     /**
