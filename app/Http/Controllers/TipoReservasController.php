@@ -36,7 +36,9 @@ class TipoReservasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        TipoReserva::create($request->all());
+
+        return redirect()->route('tipo_reservas.index');
     }
 
     /**

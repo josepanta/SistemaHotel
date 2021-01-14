@@ -9,6 +9,8 @@ class TipoReserva extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre', 'descripcion'];
+
     function reserva(){
         return $this->hasMany(Reserva::class);
     }
