@@ -52,8 +52,11 @@
 
                   <div class="card-footer">
                     <div class="d-flex justify-content-center">
-                      <div class='col-sm-6'>
+                      <div class='col-sm-5'>
                         <button type="submit" form="guardar_tipo_reserva" class="btn btn-primary btn-block">Guardar</button>
+                      </div>
+                      <div class='col-sm-5'>
+                        <button id="cancelarButton" type="button" class="btn btn-danger btn-block">Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -77,5 +80,11 @@
     $("#nav_item_title_reservas").addClass("active");
     $("#nav_item_option_tipo_reservas").addClass("active");
   }); 
+</script>
+
+<script>
+    $('#cancelarButton').click(function(){
+        window.location.href = "{{ route('tipo_reservas.index') }}";
+    });
 </script>
 @endsection

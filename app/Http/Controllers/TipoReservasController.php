@@ -49,7 +49,9 @@ class TipoReservasController extends Controller
      */
     public function show($id)
     {
-        //
+        $tipo_reserva = TipoReserva::findOrFail($id);
+
+        return view('reservar.tipo_reservar.show', compact('tipo_reserva'));
     }
 
     /**
