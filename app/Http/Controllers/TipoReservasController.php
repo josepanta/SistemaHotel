@@ -60,7 +60,9 @@ class TipoReservasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo_reserva = TipoReserva::findOrFail($id);
+
+        return view('reservar.tipo_reservar.edit', compact('tipo_reserva'));
     }
 
     /**
@@ -72,7 +74,12 @@ class TipoReservasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tipo_reserva = TipoReserva::findOrFail($id);
+        $tipo_reserva->nombre = $request->nombre;
+        $tipo_reserva->descripcion =$request->descripcion;
+        $tipo_reserva->save();
+
+        return redirect()->route('tipo_reservas.index');
     }
 
     /**

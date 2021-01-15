@@ -41,7 +41,6 @@
                         <table id="tipos_reservas_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
                                     <th>Opciones</th>
@@ -50,14 +49,14 @@
                             <tbody>
                                 @foreach($tipo_reservas as $tipo_reserva)
                                     <tr>
-                                        <td>{{ $tipo_reserva->id }}</td>
                                         <td>{{ $tipo_reserva->nombre }}</td>
                                         <td>{{ $tipo_reserva->descripcion }}</td>
                                         <td>
                                           <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <input id="id" type="hidden" value="{{ $tipo_reserva->id }}">
+                                            <button id="editar" type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
+                                            <button id="ver" type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
+                                            <button id="eliminar" type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
                                           </div>
                                         </td>
                                     </tr>
@@ -129,5 +128,16 @@
     $("#nav_item_title_reservas").addClass("active");
     $("#nav_item_option_tipo_reservas").addClass("active");
   }); 
+</script>
+
+<script>
+  //Edit
+  function editar(obj){
+    var url = '{{ route("tipo_reservas.edit", ":id") }}'; 
+    var id = obj.parent().find('input').val();
+
+    url = url.replace(':id', id);
+    window.location.href = url;
+  }
 </script>
 @endsection
