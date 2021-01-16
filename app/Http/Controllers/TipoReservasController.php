@@ -92,6 +92,8 @@ class TipoReservasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TipoReserva::destroy($id);
+
+        return redirect()->route('tipo_reservas.index');
     }
 }

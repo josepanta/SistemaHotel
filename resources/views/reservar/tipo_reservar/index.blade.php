@@ -56,7 +56,7 @@
                                             <input id="id" type="hidden" value="{{ $tipo_reserva->id }}">
                                             <button id="editar" type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
                                             <button id="ver" type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
-                                            <button id="eliminar" type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <button id="eliminar" type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
                                           </div>
                                         </td>
                                     </tr>
@@ -142,11 +142,26 @@
 
   //Show
   function mostrar(obj){
-    var url = '{{ route("tipo_reservas.show", ":id") }}'
+    var url = '{{ route("tipo_reservas.show", ":id") }}';
     var id = obj.parent().find("input").val();
 
     url = url.replace(':id', id);
     window.location.href = url; 
+  }
+
+  //Delete
+  function eliminar(obj){
+    var url = '{{ route("tipo_reservas.destroy", ":id") }}';
+    var id = obj.parent().find("input").val();
+    url = url.replace(':id', id);
+    
+    $.ajax({
+      url: url,
+      type: "post",
+      data: {"_method":"delete", "_token": "{{ csrf_token() }}",},
+    }).done(function(){
+      window.location.href = "{{ route('tipo_reservas.index') }}";
+    });
   }
 </script>
 @endsection
