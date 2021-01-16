@@ -37,7 +37,9 @@ class TipoHabitacionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        TipoHabitacione::create($request->all());
+        
+        return redirect()->route('tipo_habitaciones.index');
     }
 
     /**
@@ -48,7 +50,9 @@ class TipoHabitacionesController extends Controller
      */
     public function show($id)
     {
-        //
+        $tipo_habitacion = TipoHabitacione::findOrFail($id);
+
+        return view('habitacion.tipo_habitacion.show', compact('tipo_habitacion'));
     }
 
     /**
@@ -59,7 +63,9 @@ class TipoHabitacionesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo_habitacion = TipoHabitacione::findOrFail($id);
+
+        return view('habitacion.tipo_habitacion.edit', compact('tipo_habitacion'));
     }
 
     /**
@@ -71,7 +77,13 @@ class TipoHabitacionesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tipo_habitacion = TipoHabitacione::findOrFail($id);
+        $tipo_habitacion->nombre = $request->nombre;
+        $tipo_habitacion->descripcion = $request->descripcion;
+        $tipo_habitacion->precio = $request->precio;
+        $tipo_habitacion->save();
+
+        return redirect()->route('tipo_habitaciones.index');
     }
 
     /**
@@ -82,6 +94,8 @@ class TipoHabitacionesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TipoHabitacione::destroy($id);
+
+        return redirect()->route('tipo_habitaciones.index');
     }
 }

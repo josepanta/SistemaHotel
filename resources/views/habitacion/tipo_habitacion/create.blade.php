@@ -32,21 +32,23 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form>
+                <form id="guardar_tipo_habitacion" method="post" action="{{ route('tipo_habitaciones.store') }}">
+                  {{ csrf_field() }}
+                  
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-sm-8">
-                        <label for="tipo_habitacion_nombre">Nombre</label>
-                        <input type="text" class="form-control" id="tipo_habitacion_nombre" placeholder="Nombre">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" value="{{ old('nombre') }}">
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="tipo_habitacion_precio">Precio</label>
-                        <input type="number" step="0.01" class="form-control" id="tipo_habitacion_precio" placeholder="Precio">
+                        <label for="precio">Precio</label>
+                        <input id="precio" name="precio" type="number" step="0.01" class="form-control" placeholder="Precio" value="{{ old('precio') }}">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="tipo_habitacion_descripcion">Descripcion</label>
-                      <textarea id="tipo_habitacion_descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;"></textarea>
+                      <label for="descripcion">Descripcion</label>
+                      <textarea id="descripcion" name="descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;">{{ old('descripcion') }}</textarea>
                     </div>
                   </div>
                   <!-- /.card-body -->
@@ -54,7 +56,7 @@
                   <div class="card-footer">
                     <div class="d-flex justify-content-center">
                       <div class='col-sm-6'>
-                        <button type="submit" class="btn btn-primary btn-block">Agregar</button>
+                        <button type="submit" form="guardar_tipo_habitacion" class="btn btn-primary btn-block">Agregar</button>
                       </div>
                     </div>
                   </div>
