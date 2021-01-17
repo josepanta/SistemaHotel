@@ -41,7 +41,7 @@
                         <table id="habitaciones_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Nombre</th>
                                     <th>Tipo Habitacion</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
@@ -50,14 +50,15 @@
                             <tbody>
                                 @foreach($habitaciones as $habitacion)
                                     <tr>
-                                        <td>{{ $habitacion->id }}</td>
+                                        <td>{{ $habitacion->letra_numero }}</td>
                                         <td>{{ $habitacion->tipo_habitacion->nombre }}</td>
                                         <td>{{ $habitacion->estado }}</td>
                                         <td>
                                           <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <input id="id" type="hidden" value="{{ $habitacion->id }}">
+                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
+                                            <button type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
+                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
                                           </div>
                                         </td>
                                     </tr>
@@ -128,5 +129,42 @@
     $("#nav_item_title_habitaciones").addClass("active");
     $("#nav_item_option_gestionar_habitaciones").addClass("active");
   }); 
+</script>
+
+<script>
+  //Edit
+  function editar(obj){
+    var url = '{{ route("habitaciones.edit", ":id") }}'; 
+    var id = obj.parent().find('input').val();
+
+    url = url.replace(':id', id);
+    window.location.href = url;
+  }
+
+  //Show
+  function mostrar(obj){
+    var url = '{{ route("habitaciones.show", ":id") }}';
+    var id = obj.parent().find("input").val();
+    url = url.replace(":id", id);
+
+    window.location.href = url;
+  }
+
+  //Delete
+  function eliminar(obj){
+    var url = '{{ route("habitaciones.destroy", ":id") }}';
+    var id = obj.parent().find("input").val();
+    url = url.replace(":id", id);
+
+    $.ajax({
+      url: url,
+      type: "post",
+      data: {
+        '_method':'delete', '_token': '{{ csrf_token() }}'
+      }
+    }).done(function(){
+      window.location.href = "{{ route('habitaciones.index') }}";
+    });
+  }
 </script>
 @endsection

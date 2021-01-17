@@ -32,26 +32,37 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form>
+                <form id="guardar_habitacion" method="post" action="{{ route('habitaciones.store') }}">
+                  {{ csrf_field() }}
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-sm-4">
-                        <label for="habitacion_letra_numero">Letra - Numero</label>
-                        <input type="text" class="form-control" id="habitacion_letra_numero" placeholder="Letra - Numero">
+                        <label for="letra_numero">Letra - Numero</label>
+                        <input id="letra_numero" name="letra_numero" type="text" class="form-control" placeholder="Letra - Numero" value="{{ old('letra_numero') }}">
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="habitacion_precio">Estado</label>
-                        <select class="form-control select">
+                        <label for="estado">Estado</label>
+                        <select id="estado" name="estado" class="form-control select">
+                          <option disabled selected>Selecciona</option>
                           @foreach($estados as $estado)
-                            <option value="{{ $estado }}">{{ $estado }}</option>
+                            @if( old('estado') == $estado)
+                              <option value="{{ $estado }}" selected>{{ $estado }}</option>
+                            @else
+                              <option value="{{ $estado }}">{{ $estado }}</option>
+                            @endif
                           @endforeach
                         </select>
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="habitacion_descripcion">Tipo de Habitacion</label>
-                        <select class="form-control select">
+                        <label for="tipo_habitacion_id">Tipo de Habitacion</label>
+                        <select id="tipo_habitacion_id" name="tipo_habitacion_id" class="form-control select">
+                          <option disabled selected>Selecciona</option>
                           @foreach($tipo_habitaciones as $tipo_habitacion)
-                            <option value="{{ $tipo_habitacion->id }}">{{ $tipo_habitacion->nombre }}</option>
+                            @if( old('tipo_habitacion_id') == $tipo_habitacion->id)
+                              <option value="{{ $tipo_habitacion->id }}" selected>{{ $tipo_habitacion->nombre }}</option>
+                            @else
+                              <option value="{{ $tipo_habitacion->id }}">{{ $tipo_habitacion->nombre }}</option>
+                            @endif
                           @endforeach
                         </select>
                       </div>
