@@ -20,7 +20,7 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="{{ asset('dist/css/one-page-wonder.css') }}" rel="stylesheet">
+        <link href="{{ asset('dist/css/one-page-wonder.min.css') }}" rel="stylesheet">
 
     </head>
 
@@ -64,6 +64,7 @@
             <div class="bg-circle-2 bg-circle"></div>
             <div class="bg-circle-3 bg-circle"></div>   
             <div class="bg-circle-4 bg-circle"></div>
+            <div class="p-4"></div>
         </header>
 
         <div id="contenido_pagina">
