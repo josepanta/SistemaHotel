@@ -44,92 +44,72 @@
                 <!-- form start -->
                 <form>
                   <div class="card-body">
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label for="tipo_reserva_nombre">Estado</label>
-                            <select class="form-control select">
-                                @foreach($estados as $estado)
-                                    <option value="{{ $estado }}">{{ $estado }}</option>
-                                @endforeach
-                            </select>
-                        </div> 
-                        <div class="form-group col-sm-4">
-                            <label for="tipo_reserva_descripcion">Tipo Reserva</label>
-                            <select class="form-control select">
-                                @foreach($tipo_reservas as $tipo_reserva)
-                                    <option value="{{ $tipo_reserva->id }}">{{ $tipo_reserva->nombre }}</option>
-                                @endforeach
-                            </select>
-                        </div>   
-                        <div class="form-group col-sm-4">
-                            <label for="tipo_reserva_descripcion">Usuario</label>
-                            <select class="form-control select2bs4" style="width:100%!important;">
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div> 
+                    <div class="row mt-1">
+                      <div class="row ml-1 mb-3">
+                          <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modal-agregar"><i class="fa fa-plus"></i>Agregar</button>
+                      </div>
+                      <table id="reservas_table" class="table">
+                          <thead>
+                              <tr>
+                                  <th>Habitacion</th>
+                                  <th>Fecha Comienzo</th>
+                                  <th>Fecha Fin</th>
+                                  <th>Usuario</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>
+                                      <div class="row justify-content-between">
+                                      <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
+                                      <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
+                                      <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tfoot>
+                      </table>
+                      <div class="modal fade" id="modal-agregar">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Agregar</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="col">
+                                <div class="row-md-4">
+                                  <label for="habitacion"></label>
+                                  <input name=""type="text">
+                                </div>
+                                <div class="row">
+                                  <label for=""></label>
+                                  <input type="text">
+                                </div>
+                                <div class="row">
+                                  <label for=""></label>
+                                  <input type="text">
+                                </div>
+
+                              </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn btn-primary">Guardar</button>
+                            </div>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
                     </div>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <div class="from-group col-sm-10">
-                        <table id="reservas_habitaciones_table" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha fin</th>
-                                    <th>Habitacion</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                    Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                    Explorer 5.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                    Explorer 5.5
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
 
                   <div class="card-footer">
                     <div class="d-flex justify-content-center">

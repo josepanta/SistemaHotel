@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Habitacione;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
 use App\Models\TipoReserva;
@@ -27,11 +28,10 @@ class ReservasController extends Controller
      */
     public function create()
     {
-        $tipo_reservas = TipoReserva::all();
         $users = User::all();
-        $estados = ['Reservada', 'Check-in', 'Check_out', 'Cancelada'];
+        $habitaciones = Habitacione::all();
 
-        return view('reservar.create', compact('tipo_reservas', 'users', 'estados'));
+        return view('reservar.create', compact('users', 'habitaciones'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ReservasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

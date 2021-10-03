@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Rinvex\Bookings\Traits\HasBookings;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasBookings;
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function getBookingModel(): string
+    {
+        return Booking::class;
+    }
+    
     function reserva(){
         return $this->hasMany(Reserva::class);
     }
