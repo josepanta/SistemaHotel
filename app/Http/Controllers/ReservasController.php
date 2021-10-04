@@ -18,6 +18,7 @@ class ReservasController extends Controller
     public function index()
     {
         $reservas = Reserva::all();  
+
         return view('reservar.index',compact('reservas'));
     }
 
@@ -42,7 +43,16 @@ class ReservasController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $array = json_decode($request->tabla_array);
+
+        foreach($array as $row){
+            $user = User::findOrFail($row->user);
+            $habitacion = Habitacione::findOrFail($row->habitacion);
+
+            $user->newBooking($habitacion, '2017-07-05 12:44:12', '2017-07-10 18:30:11');
+        }
+
+        return redirect()->route('reservas.index');
     }
 
     /**

@@ -10,7 +10,7 @@ class Habitacione extends Model
 {
     use HasFactory, Bookable;
     
-    protected $fillable = ['letra_numero', 'estado', 'tipo_habitacion_id'];
+    protected $fillable = ['letra_numero', 'estado', 'price', 'unit',  'tipo_habitacion_id'];
 
     public static function getBookingModel(): string
     {
