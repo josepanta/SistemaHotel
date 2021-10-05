@@ -55,9 +55,10 @@
                                         <td>{{ $reserva->tipo_reserva->nombre }}</td>
                                         <td>
                                           <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <input id="id" type="hidden" value="{{ $reserva->id }}">
+                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
+                                            <button type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
+                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
                                           </div>
                                         </td>
                                     </tr>
@@ -129,5 +130,42 @@
     $("#nav_item_title_reservas").addClass("active");
     $("#nav_item_option_gestionar_reservas").addClass("active");
   }); 
+</script>
+
+<script>
+  //Edit
+  function editar(obj){
+    var url = '{{ route("reservas.edit", ":id") }}'; 
+    var id = obj.parent().find('input').val();
+
+    url = url.replace(':id', id);
+    window.location.href = url;
+  }
+
+  //Show
+  function mostrar(obj){
+    var url = '{{ route("reservas.show", ":id") }}';
+    var id = obj.parent().find("input").val();
+    url = url.replace(":id", id);
+
+    window.location.href = url;
+  }
+
+  //Delete
+  function eliminar(obj){
+    var url = '{{ route("reservas.destroy", ":id") }}';
+    var id = obj.parent().find("input").val();
+    url = url.replace(":id", id);
+
+    $.ajax({
+      url: url,
+      type: "post",
+      data: {
+        '_method':'delete', '_token': '{{ csrf_token() }}'
+      }
+    }).done(function(){
+      window.location.href = "{{ route('reservas.index') }}";
+    });
+  }
 </script>
 @endsection

@@ -298,12 +298,21 @@
   });
 
   //Editar de Modal
+  $("#fecha_inicio_editar, #fecha_fin_editar").change(function(){
+    if($("#fecha_inicio_editar").val().length !== 0){
+      $("#fecha_fin_editar").attr("min", $("#fecha_inicio_editar").val());
+    }
+  });
+
   function editar_modal(button){
     crear_alert("Selecciona un intervalo de fechas para elegir las habitaciones disponibles.", "info");
+
     $("#index").val(button.parents('tr').attr("id"));
     $("#habitacion_editar option[value='"+button.parents('tr').find('td').eq(0).attr('id')+"']").attr("selected", true);
     $("#fecha_inicio_editar").val(button.parents('tr').find('td').eq(1).text());
     $("#fecha_fin_editar").val(button.parents('tr').find('td').eq(2).text());
+
+    $("#fecha_fin_editar").attr("min", $("#fecha_inicio_editar").val());
   }
 
   $("#guardar_editar_modal").click(function(){

@@ -33,7 +33,7 @@ class ReservasController extends Controller
         $users = User::all();
         $habitaciones = Habitacione::all();
         $tipos_reservas = TipoReserva::all();
-        $estados = ['Reservada', 'Pagada', 'Cancelada']; 
+        $estados = ['Reservada', 'Pagada', 'Cancelada', 'Inactiva']; 
 
         return view('reservar.create', compact('users', 'habitaciones', 'estados', 'tipos_reservas'));
     }
@@ -81,7 +81,15 @@ class ReservasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $reserva = Reserva::findOrFail($id);
+        $reserva_habitaciones = ReservaHabitacione::where("reserva_id", $id)->get();
+
+        $users = User::all();
+        $habitaciones = Habitacione::all();
+        $tipos_reservas = TipoReserva::all();
+        $estados = ['Reservada', 'Pagada', 'Cancelada', 'Inactiva']; 
+
+        return view('reservar.edit', compact('reserva', "reserva_habitaciones", 'users', 'habitaciones', 'estados', 'tipos_reservas'));
     }
 
     /**
@@ -93,7 +101,24 @@ class ReservasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $array = json_decode($request->tabla_array);
+
+        $reserva = Reserva::findOrFail($id);
+        $reserva->fill($request->all());
+        $reserva->save();
+
+        ReservaHabitacione::where("reserva_id", $id)->delete();
+
+        foreach($array as $row){
+            ReservaHabitacione::create([
+                "fecha_inicio" => $row->fecha_inicio,
+                "fecha_fin" => $row->fecha_fin,
+                "habitacion_id" => $row->habitacion,
+                "reserva_id" => $reserva->id
+            ]); 
+        }
+        
+        return redirect()->route('reservas.index');
     }
 
     /**
@@ -104,6 +129,8 @@ class ReservasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $reserva = Reserva::findOrFail($id);
+        $reserva->estado = "Inactiva";
+        $reserva->save();
     }
 }
