@@ -70,7 +70,15 @@ class ReservasController extends Controller
      */
     public function show($id)
     {
-        //
+        $reserva = Reserva::findOrFail($id);
+        $reserva_habitaciones = ReservaHabitacione::where("reserva_id", $id)->get();
+
+        $users = User::all();
+        $habitaciones = Habitacione::all();
+        $tipos_reservas = TipoReserva::all();
+        $estados = ['Reservada', 'Pagada', 'Cancelada', 'Inactiva']; 
+
+        return view('reservar.show', compact('reserva', "reserva_habitaciones", 'users', 'habitaciones', 'estados', 'tipos_reservas'));
     }
 
     /**
