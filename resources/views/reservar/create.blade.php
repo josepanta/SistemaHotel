@@ -115,13 +115,6 @@
                                     <label for="habitacion_agregar">Habitacion</label>
                                     <select id="habitacion_agregar" class="form-control select" disabled>
                                         <option disabled selected>Selecciona</option>
-                                        @foreach($habitaciones as $habitacion)
-                                          @if($habitacion->id == old('habitacion_agregar'))
-                                            <option value="{{ $habitacion->id }}" selected>{{ $habitacion->letra_numero }}</option>
-                                          @else
-                                            <option value="{{ $habitacion->id }}">{{ $habitacion->letra_numero }}</option>
-                                          @endif
-                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-6">
@@ -160,13 +153,6 @@
                                     <label for="habitacion_editar">Habitacion</label>
                                     <select id="habitacion_editar" class="form-control select">
                                         <option disabled selected>Selecciona</option>
-                                        @foreach($habitaciones as $habitacion)
-                                          @if($habitacion->id == old('habitacion_agregar'))
-                                            <option value="{{ $habitacion->id }}" selected>{{ $habitacion->letra_numero }}</option>
-                                          @else
-                                            <option value="{{ $habitacion->id }}">{{ $habitacion->letra_numero }}</option>
-                                          @endif
-                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-6">
@@ -283,7 +269,19 @@
     }
 
     if($("#fecha_inicio_agregar").val().length !== 0 && $("#fecha_fin_agregar").val().length !== 0){
-      $("#habitacion_agregar").prop("disabled", false);
+      var url = '{{ route("reservas.habitacionesLibres", [":fecha_inicio" , ":fecha_fin"]) }}';
+      url = url.replace(":fecha_inicio", $("#fecha_inicio_agregar").val());
+      url = url.replace(":fecha_fin", $("#fecha_fin_agregar").val());
+
+      $.ajax({
+        url: url,
+        type: 'get',  
+      }).done(function(data){
+        $.each(data, function(i, item){
+          $("#habitacion_agregar").append("<option id = "+ item.id +">"+ item.letra_numero +"</option>");
+        });
+        $("#habitacion_agregar").prop("disabled", false);
+      });
     }
   });
 
@@ -313,6 +311,20 @@
     $("#fecha_fin_editar").val(button.parents('tr').find('td').eq(2).text());
 
     $("#fecha_fin_editar").attr("min", $("#fecha_inicio_editar").val());
+
+    var url = '{{ route("reservas.habitacionesLibres", [":fecha_inicio" , ":fecha_fin"]) }}';
+    url = url.replace(":fecha_inicio", $("#fecha_inicio_agregar").val());
+    url = url.replace(":fecha_fin", $("#fecha_fin_agregar").val());
+
+    $.ajax({
+      url: url,
+      type: 'get',  
+    }).done(function(data){
+      $.each(data, function(i, item){
+        $("#habitacion_agregar").append("<option id = "+ item.id +">"+ item.letra_numero +"</option>");
+      });
+      $("#habitacion_agregar").prop("disabled", false);
+    });
   }
 
   $("#guardar_editar_modal").click(function(){

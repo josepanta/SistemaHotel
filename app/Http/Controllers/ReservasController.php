@@ -141,4 +141,25 @@ class ReservasController extends Controller
         $reserva->estado = "Inactiva";
         $reserva->save();
     }
+
+    public function habitacionesLibres($fecha_inicio, $fecha_fin)
+    {
+        $habitaciones = Habitacione::all();
+        $habitacionesLibres = collect([]); 
+
+        foreach($habitaciones as $habitacion){
+            $reservas = ReservaHabitacione::where('habitacion_id', $habitacion->id)->get();
+            foreach($reservas as $reserva){
+                $cont = 0;
+                if($reserva->fecha_fin > $fecha_inicio || $reserva->fecha_inicio < $fecha_fin){
+                    $cont++;
+                }
+            }
+            if($cont != 0){
+                $habitacionesLibres->push($habitacion);
+            } 
+        }
+
+        return response()->json($habitacionesLibres);
+    }
 }

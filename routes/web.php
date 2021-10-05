@@ -23,15 +23,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([
+    'reset' => false,
+]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Resource Routes
-Route::resource('/reservas', ReservasController::class );
-Route::resource('/habitaciones', HabitacionesController::class);
-Route::resource('/tipo_reservas', TipoReservasController::class);
-Route::resource('/tipo_habitaciones', TipoHabitacionesController::class);
-Route::resource('/tipo_users', TipoUsersController::class);
+Route::group(['middleware' => 'auth'], function() {
 
-Route::resource('/users', UsersController::class);
+    Route::get('/reservas/habitacionesLibres/{fecha_inicio}/{fecha_fin}', [ReservasController::class, 'habitacionesLibres'])->name('reservas.habitacionesLibres');
+    Route::resource('/reservas', ReservasController::class );
+
+    Route::resource('/habitaciones', HabitacionesController::class);
+    Route::resource('/tipo_reservas', TipoReservasController::class);
+    Route::resource('/tipo_habitaciones', TipoHabitacionesController::class);
+    Route::resource('/tipo_users', TipoUsersController::class);
+
+    Route::resource('/users', UsersController::class);
+    
+});
