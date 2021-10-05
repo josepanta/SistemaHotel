@@ -28,7 +28,7 @@ class HabitacionesController extends Controller
     public function create()
     {
         $tipo_habitaciones = TipoHabitacione::all();
-        $estados = ['ocupada', 'libre', 'mantenimiento'];
+        $estados = ['Activa', 'Inactiva'];
         
         return view('habitacion.create', compact('tipo_habitaciones','estados'));   
     }
@@ -69,7 +69,7 @@ class HabitacionesController extends Controller
     {
         $habitacion = Habitacione::findOrFail($id);
         $tipo_habitaciones = TipoHabitacione::all();
-        $estados = ['ocupada', 'libre', 'mantenimiento'];
+        $estados = ['Activa', 'Inactiva'];
         
         return view('habitacion.edit', compact('habitacion', 'tipo_habitaciones','estados'));  
     }

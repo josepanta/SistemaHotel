@@ -43,6 +43,7 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Tipo Habitacion</th>
+                                    <th>Precio</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -52,6 +53,7 @@
                                     <tr>
                                         <td>{{ $habitacion->letra_numero }}</td>
                                         <td>{{ $habitacion->tipo_habitacion->nombre }}</td>
+                                        <td>{{ $habitacion->tipo_habitacion->precio }}</td>
                                         <td>{{ $habitacion->estado }}</td>
                                         <td>
                                           <div class="row justify-content-between">
