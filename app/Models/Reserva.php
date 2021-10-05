@@ -9,6 +9,8 @@ class Reserva extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['estado', 'tipo_reserva_id', 'user_id'];
+
     function user(){
         return $this->belongsTo(User::class);
     }

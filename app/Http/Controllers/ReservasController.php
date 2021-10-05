@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Habitacione;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
+use App\Models\ReservaHabitacione;
 use App\Models\TipoReserva;
 use App\Models\User;
 
@@ -31,8 +32,10 @@ class ReservasController extends Controller
     {
         $users = User::all();
         $habitaciones = Habitacione::all();
+        $tipos_reservas = TipoReserva::all();
+        $estados = ['Reservada', 'Pagada', 'Cancelada']; 
 
-        return view('reservar.create', compact('users', 'habitaciones'));
+        return view('reservar.create', compact('users', 'habitaciones', 'estados', 'tipos_reservas'));
     }
 
     /**
@@ -45,11 +48,15 @@ class ReservasController extends Controller
     {
         $array = json_decode($request->tabla_array);
 
-        foreach($array as $row){
-            $user = User::findOrFail($row->user);
-            $habitacion = Habitacione::findOrFail($row->habitacion);
+        $reserva = Reserva::create($request->all());     
 
-            $user->newBooking($habitacion, '2017-07-05 12:44:12', '2017-07-10 18:30:11');
+        foreach($array as $row){
+            ReservaHabitacione::create([
+                "fecha_inicio" => $row->fecha_inicio,
+                "fecha_fin" => $row->fecha_fin,
+                "habitacion_id" => $row->habitacion,
+                "reserva_id" => $reserva->id
+            ]); 
         }
 
         return redirect()->route('reservas.index');
