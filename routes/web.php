@@ -31,6 +31,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function() {
 
+    Route::get('/reservas/dataCalendario', [ReservasController::class, 'getDataCalendario'])->name('reservas.dataCalendario');
+    Route::get('/reservas/calendario', [ReservasController::class, 'getCalendario'])->name('reservas.calendario');
     Route::get('/reservas/habitacionesLibres/{fecha_inicio}/{fecha_fin}', [ReservasController::class, 'habitacionesLibres'])->name('reservas.habitacionesLibres');
     Route::resource('/reservas', ReservasController::class );
 

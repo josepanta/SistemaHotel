@@ -24,9 +24,9 @@ class StoreReservaRequest extends FormRequest
     public function rules()
     {
         return [
-            "usuario_id" => "required",
+            "user_id" => "required",
             "estado" => "required",
-            "tipo" => "required",
+            "tipo_reserva_id" => "required",
             "tabla_array" => "required|json"
         ];
     }
@@ -34,8 +34,8 @@ class StoreReservaRequest extends FormRequest
     public function attributes()
     {
         return [
-            "usuario_id" => "usuario",
-            "tipo_habitacion_id" => "tipo"
+            "user_id" => "usuario",
+            "tipo_reserva_id" => "tipo"
         ];
     }
 }

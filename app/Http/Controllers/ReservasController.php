@@ -163,4 +163,43 @@ class ReservasController extends Controller
 
         return response()->json($habitacionesLibres);
     }
+    
+    public function getCalendario()
+    {
+        return view('reservar.calendario');
+    }
+
+    public function getDataCalendario()
+    {
+        $reservas_habitaciones = ReservaHabitacione::all();
+        $data = collect([]);
+
+        //['Reservada', 'Pagada', 'Cancelada', 'Inactiva']
+        foreach($reservas_habitaciones as $reserva_habitacion){
+            switch($reserva_habitacion->reserva->estado){
+                case 'Reservada':
+                    $color = "#AF7AC5";
+                    break;
+                case 'Pagada':
+                    $color = "#3498DB";
+                    break;
+                case 'Cancelada':
+                    $color = "#E74C3C";
+                    break;
+                case 'Inactiva':
+                    $color = "#E67E22";
+                    break;
+            }
+
+            $data->push([
+                "title" => "Habitacion: ". $reserva_habitacion->habitacion->letra_numero ." - Reserva: ". $reserva_habitacion->reserva->user->name,
+                "backgroundColor" => $color,
+                "borderColor" => $color,
+                "start" => $reserva_habitacion->fecha_inicio,
+                "end" => $reserva_habitacion->fecha_fin
+            ]);
+        }
+
+        return response()->json($data);
+    }
 }

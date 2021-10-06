@@ -50,7 +50,7 @@
                         <select id="user" name="user_id" class="form-control select2bs4 {{ $errors->has('user_id') ? ' is-invalid' : '' }}" style="width:100%!important;">
                           <option disabled selected>Selecciona</option>
                           @foreach($users as $user)
-                            @if($user->id == old('user'))
+                            @if($user->id == old('user_id'))
                               <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
                             @else
                               <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -86,7 +86,7 @@
                         <select id="tipo_reserva" name="tipo_reserva_id" class="form-control select {{ $errors->has('tipo_reserva_id') ? ' is-invalid' : '' }}" style="width:100%!important;">
                           <option disabled selected>Selecciona</option>
                           @foreach($tipos_reservas as $tipo_reserva)
-                            @if($tipo_reserva->id == old('tipo_reserva'))
+                            @if($tipo_reserva->id == old('tipo_reserva_id'))
                               <option value="{{ $tipo_reserva->id }}">{{ $tipo_reserva->nombre }}</option>
                             @else
                               <option value="{{ $tipo_reserva->id }}">{{ $tipo_reserva->nombre }}</option>
@@ -293,7 +293,7 @@
         type: 'get',  
       }).done(function(data){
         $.each(data, function(i, item){
-          $("#habitacion_agregar").append("<option id = "+ item.id +">"+ item.letra_numero +"</option>");
+          $("#habitacion_agregar").append("<option value = "+ item.id +">"+ item.letra_numero +"</option>");
         });
         $("#habitacion_agregar").prop("disabled", false);
       });
@@ -336,7 +336,7 @@
       type: 'get',  
     }).done(function(data){
       $.each(data, function(i, item){
-        $("#habitacion_agregar").append("<option id = "+ item.id +">"+ item.letra_numero +"</option>");
+        $("#habitacion_agregar").append("<option value = "+ item.id +">"+ item.letra_numero +"</option>");
       });
       $("#habitacion_agregar").prop("disabled", false);
     });

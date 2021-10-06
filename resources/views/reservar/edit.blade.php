@@ -313,7 +313,19 @@
     }
 
     if($("#fecha_inicio_agregar").val().length !== 0 && $("#fecha_fin_agregar").val().length !== 0){
-      $("#habitacion_agregar").prop("disabled", false);
+      var url = '{{ route("reservas.habitacionesLibres", [":fecha_inicio" , ":fecha_fin"]) }}';
+      url = url.replace(":fecha_inicio", $("#fecha_inicio_agregar").val());
+      url = url.replace(":fecha_fin", $("#fecha_fin_agregar").val());
+
+      $.ajax({
+        url: url,
+        type: 'get',  
+      }).done(function(data){
+        $.each(data, function(i, item){
+          $("#habitacion_agregar").append("<option value = "+ item.id +">"+ item.letra_numero +"</option>");
+        });
+        $("#habitacion_agregar").prop("disabled", false);
+      });
     }
   });
 
@@ -342,6 +354,20 @@
     $("#fecha_fin_editar").val(button.parents('tr').find('td').eq(2).text());
 
     $("#fecha_fin_editar").attr("min", $("#fecha_inicio_editar").val());
+
+    var url = '{{ route("reservas.habitacionesLibres", [":fecha_inicio" , ":fecha_fin"]) }}';
+    url = url.replace(":fecha_inicio", $("#fecha_inicio_agregar").val());
+    url = url.replace(":fecha_fin", $("#fecha_fin_agregar").val());
+
+    $.ajax({
+      url: url,
+      type: 'get',  
+    }).done(function(data){
+      $.each(data, function(i, item){
+        $("#habitacion_agregar").append("<option value = "+ item.id +">"+ item.letra_numero +"</option>");
+      });
+      $("#habitacion_agregar").prop("disabled", false);
+    });
   }
 
   $("#guardar_editar_modal").click(function(){

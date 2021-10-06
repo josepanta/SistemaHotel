@@ -124,6 +124,12 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a id="nav_item_option_calendario" href="{{ route('reservas.calendario') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Calendario</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a id="nav_item_option_tipo_reservas" href="{{ route('tipo_reservas.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tipo Reservas</p>
