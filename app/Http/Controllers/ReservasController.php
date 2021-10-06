@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReservaRequest;
 use App\Models\Habitacione;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
@@ -44,7 +45,7 @@ class ReservasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreReservaRequest $request)
     {
         $array = json_decode($request->tabla_array);
 

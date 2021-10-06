@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTipoReservaRequest;
+use App\Http\Requests\UpdateTipoReservaRequest;
 use App\Models\TipoReserva;
 use Illuminate\Http\Request;
 
@@ -34,7 +36,7 @@ class TipoReservasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTipoReservaRequest $request)
     {
         TipoReserva::create($request->all());
 
@@ -74,7 +76,7 @@ class TipoReservasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTipoReservaRequest $request, $id)
     {
         $tipo_reserva = TipoReserva::findOrFail($id);
         $tipo_reserva->nombre = $request->nombre;

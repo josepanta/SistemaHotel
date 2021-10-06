@@ -39,12 +39,22 @@
                     <div class="row">
                       <div class="form-group col-sm-12">
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" value="{{ old('nombre') }}" >
+                        <input id="nombre" name="nombre" type="text" class="form-control {{ $errors->has('nombre') ? ' is-invalid' : '' }}" placeholder="Nombre" value="{{ old('nombre') }}" >
+                        @error('nombre')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>    
                     </div>
                     <div class="form-group">
                       <label for="descripcion">Descripcion</label>
-                      <textarea id="descripcion" name="descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;">{{ old('descripcion') }}</textarea>
+                      <textarea id="descripcion" name="descripcion" class="form-control {{ $errors->has('descripcion') ? ' is-invalid' : '' }}" rows="3" placeholder="Descripcion" style="resize:none;">{{ old('descripcion') }}</textarea>
+                      @error('descripcion')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
                     </div>
                   </div>
                   <!-- /.card-body -->

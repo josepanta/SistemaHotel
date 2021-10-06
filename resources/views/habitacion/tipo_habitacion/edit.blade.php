@@ -39,16 +39,31 @@
                     <div class="row">
                       <div class="form-group col-sm-8">
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" value="{{ $tipo_habitacion->nombre }}">
+                        <input id="nombre" name="nombre" type="text" class="form-control {{ $errors->has('nombre') ? ' is-invalid' : '' }}" placeholder="Nombre" value="{{ $tipo_habitacion->nombre }}">
+                        @error('nombre')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="precio">Precio</label>
-                        <input id="precio" name="precio" type="number" step="0.01" class="form-control" placeholder="Precio" value="{{ $tipo_habitacion->precio }}">
+                        <input id="precio" name="precio" type="number" step="0.01" class="form-control {{ $errors->has('precio') ? ' is-invalid' : '' }}" placeholder="Precio" value="{{ $tipo_habitacion->precio }}">
+                        @error('precio')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="descripcion">Descripcion</label>
-                      <textarea id="descripcion" name="descripcion" class="form-control" rows="3" placeholder="Descripcion" style="resize:none;">{{ $tipo_habitacion->descripcion }}</textarea>
+                      <textarea id="descripcion" name="descripcion" class="form-control {{ $errors->has('descripcion') ? ' is-invalid' : '' }}" rows="3" placeholder="Descripcion" style="resize:none;">{{ $tipo_habitacion->descripcion }}</textarea>
+                      @error('descripcion')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
                     </div>
                   </div>
                   <!-- /.card-body -->

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreHabitacionRequest;
+use App\Http\Requests\UpdateHabitacionRequest;
 use App\Models\Habitacione;
 use App\Models\TipoHabitacione;
 use Illuminate\Http\Request;
@@ -39,7 +41,7 @@ class HabitacionesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreHabitacionRequest $request)
     {
         Habitacione::create($request->all());
         
@@ -81,7 +83,7 @@ class HabitacionesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateHabitacionRequest $request, $id)
     {
         $habitacion = Habitacione::findOrFail($id);
         $habitacion->letra_numero = $request->letra_numero;

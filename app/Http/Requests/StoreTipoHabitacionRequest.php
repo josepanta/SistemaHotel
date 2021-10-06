@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTipoUserRequest extends FormRequest
+class StoreTipoHabitacionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateTipoUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateTipoUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "nombre" => "required",
+            "precio" => "required|numeric",
+            "descripcion" => "required|string" 
         ];
     }
 }

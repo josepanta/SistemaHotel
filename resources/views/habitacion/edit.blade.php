@@ -39,11 +39,16 @@
                     <div class="row">
                       <div class="form-group col-sm-4">
                         <label for="letra_numero">Letra - Numero</label>
-                        <input id="letra_numero" name="letra_numero" type="text" class="form-control" placeholder="Letra - Numero" value="{{ $habitacion->letra_numero }}">
+                        <input id="letra_numero" name="letra_numero" type="text" class="form-control {{ $errors->has('letra_numero') ? ' is-invalid' : '' }}" placeholder="Letra - Numero" value="{{ $habitacion->letra_numero }}">
+                        @error('letra_numero')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="estado">Estado</label>
-                        <select id="estado" name="estado" class="form-control select">
+                        <select id="estado" name="estado" class="form-control select {{ $errors->has('estado') ? ' is-invalid' : '' }}">
                           <option disabled selected>Selecciona</option>
                           @foreach($estados as $estado)
                             @if( $habitacion->estado == $estado)
@@ -53,10 +58,15 @@
                             @endif
                           @endforeach
                         </select>
+                        @error('estado')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="tipo_habitacion_id">Tipo de Habitacion</label>
-                        <select id="tipo_habitacion_id" name="tipo_habitacion_id" class="form-control select">
+                        <select id="tipo_habitacion_id" name="tipo_habitacion_id" class="form-control select {{ $errors->has('tipo_habitacion_id') ? ' is-invalid' : '' }}">
                           <option disabled selected>Selecciona</option>
                           @foreach($tipo_habitaciones as $tipo_habitacion)
                             @if( $habitacion->tipo_habitacion_id == $tipo_habitacion->id )
@@ -66,6 +76,11 @@
                             @endif
                           @endforeach
                         </select>
+                        @error('tipo_habitacion_id')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                   </div>

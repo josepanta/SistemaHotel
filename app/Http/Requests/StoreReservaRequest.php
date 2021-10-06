@@ -13,7 +13,7 @@ class StoreReservaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class StoreReservaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "usuario_id" => "required",
+            "estado" => "required",
+            "tipo" => "required",
+            "tabla_array" => "required|json"
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            "usuario_id" => "usuario",
+            "tipo_habitacion_id" => "tipo"
         ];
     }
 }

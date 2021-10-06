@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTipoHabitacionRequest;
+use App\Http\Requests\UpdateTipoHabitacionRequest;
 use App\Models\TipoHabitacione;
 use Illuminate\Http\Request;
 
@@ -35,7 +37,7 @@ class TipoHabitacionesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTipoHabitacionRequest $request)
     {
         TipoHabitacione::create($request->all());
         
@@ -75,7 +77,7 @@ class TipoHabitacionesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTipoHabitacionRequest $request, $id)
     {
         $tipo_habitacion = TipoHabitacione::findOrFail($id);
         $tipo_habitacion->nombre = $request->nombre;

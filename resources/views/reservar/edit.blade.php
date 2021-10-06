@@ -48,7 +48,7 @@
                     <div class="row">
                       <div class="form-group col-sm-4">
                         <label for="user">Usuario</label>
-                        <select id="user" name="user_id" class="form-control select2bs4" style="width:100%!important;">
+                        <select id="user" name="user_id" class="form-control select2bs4 {{ $errors->has('user_id') ? ' is-invalid' : '' }}" style="width:100%!important;">
                           <option disabled selected>Selecciona</option>
                           @foreach($users as $user)
                             @if($user->id == $reserva->user_id)
@@ -58,10 +58,15 @@
                             @endif
                           @endforeach
                         </select>
+                        @error('user_id')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="estado">Estado</label>
-                        <select id="estado" name="estado" class="form-control select" style="width:100%!important;">
+                        <select id="estado" name="estado" class="form-control select {{ $errors->has('estado') ? ' is-invalid' : '' }}" style="width:100%!important;">
                           <option disabled selected>Selecciona</option>
                           @foreach($estados as $estado)
                             @if($estado == $reserva->estado)
@@ -71,10 +76,15 @@
                             @endif
                           @endforeach
                         </select>
+                        @error('estado')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                       <div class="form-group col-sm-4">
                         <label for="tipo_reserva">Tipo</label>
-                        <select id="tipo_reserva" name="tipo_reserva_id" class="form-control select" style="width:100%!important;">
+                        <select id="tipo_reserva" name="tipo_reserva_id" class="form-control select {{ $errors->has('tipo_reserva_id') ? ' is-invalid' : '' }}" style="width:100%!important;">
                           <option disabled selected>Selecciona</option>
                           @foreach($tipos_reservas as $tipo_reserva)
                             @if($tipo_reserva->id == $reserva->tipo_reserva_id)
@@ -84,6 +94,11 @@
                             @endif
                           @endforeach
                         </select>
+                        @error('tipo_reserva_id')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>  
                     <div class="row mt-1">
