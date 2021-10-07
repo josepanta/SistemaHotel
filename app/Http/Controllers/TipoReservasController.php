@@ -16,6 +16,8 @@ class TipoReservasController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', TipoReserva::class);
+
         $tipo_reservas = TipoReserva::all();
         return view('reservar.tipo_reservar.index', compact('tipo_reservas'));
     }
@@ -27,6 +29,8 @@ class TipoReservasController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', TipoReserva::class);
+
         return view('reservar.tipo_reservar.create');
     }
 
@@ -38,6 +42,8 @@ class TipoReservasController extends Controller
      */
     public function store(StoreTipoReservaRequest $request)
     {
+        $this->authorize('create', TipoReserva::class);
+
         TipoReserva::create($request->all());
 
         return redirect()->route('tipo_reservas.index');
@@ -53,6 +59,8 @@ class TipoReservasController extends Controller
     {
         $tipo_reserva = TipoReserva::findOrFail($id);
 
+        $this->authorize('view', [TipoReserva::class, $tipo_reserva]);
+
         return view('reservar.tipo_reservar.show', compact('tipo_reserva'));
     }
 
@@ -65,6 +73,8 @@ class TipoReservasController extends Controller
     public function edit($id)
     {
         $tipo_reserva = TipoReserva::findOrFail($id);
+
+        $this->authorize('update', [TipoReserva::class, $tipo_reserva]);
 
         return view('reservar.tipo_reservar.edit', compact('tipo_reserva'));
     }
@@ -79,6 +89,9 @@ class TipoReservasController extends Controller
     public function update(UpdateTipoReservaRequest $request, $id)
     {
         $tipo_reserva = TipoReserva::findOrFail($id);
+
+        $this->authorize('update', [TipoReserva::class, $tipo_reserva]);
+
         $tipo_reserva->nombre = $request->nombre;
         $tipo_reserva->descripcion =$request->descripcion;
         $tipo_reserva->save();
@@ -94,7 +107,9 @@ class TipoReservasController extends Controller
      */
     public function destroy($id)
     {
-        TipoReserva::destroy($id);
+        $tipo_reserva = TipoReserva::destroy($id);
+
+        $this->authorize('update', [TipoReserva::class, $tipo_reserva]);
 
         return redirect()->route('tipo_reservas.index');
     }

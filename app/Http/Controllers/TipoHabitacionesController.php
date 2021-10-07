@@ -16,6 +16,8 @@ class TipoHabitacionesController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', TipoHabitacione::class);
+
         $tipo_habitaciones = TipoHabitacione::all();
 
         return view('habitacion.tipo_habitacion.index', compact('tipo_habitaciones'));
@@ -28,6 +30,8 @@ class TipoHabitacionesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', TipoHabitacione::class);
+
         return view('habitacion.tipo_habitacion.create');
     }
 
@@ -39,6 +43,8 @@ class TipoHabitacionesController extends Controller
      */
     public function store(StoreTipoHabitacionRequest $request)
     {
+        $this->authorize('create', TipoHabitacione::class);
+
         TipoHabitacione::create($request->all());
         
         return redirect()->route('tipo_habitaciones.index');
@@ -54,6 +60,8 @@ class TipoHabitacionesController extends Controller
     {
         $tipo_habitacion = TipoHabitacione::findOrFail($id);
 
+        $this->authorize('view', [TipoHabitacione::class, $tipo_habitacion]);
+
         return view('habitacion.tipo_habitacion.show', compact('tipo_habitacion'));
     }
 
@@ -66,6 +74,8 @@ class TipoHabitacionesController extends Controller
     public function edit($id)
     {
         $tipo_habitacion = TipoHabitacione::findOrFail($id);
+
+        $this->authorize('update', [TipoHabitacione::class, $tipo_habitacion]);
 
         return view('habitacion.tipo_habitacion.edit', compact('tipo_habitacion'));
     }
@@ -80,6 +90,9 @@ class TipoHabitacionesController extends Controller
     public function update(UpdateTipoHabitacionRequest $request, $id)
     {
         $tipo_habitacion = TipoHabitacione::findOrFail($id);
+
+        $this->authorize('update', [TipoHabitacione::class, $tipo_habitacion]);
+
         $tipo_habitacion->nombre = $request->nombre;
         $tipo_habitacion->descripcion = $request->descripcion;
         $tipo_habitacion->precio = $request->precio;
@@ -96,7 +109,9 @@ class TipoHabitacionesController extends Controller
      */
     public function destroy($id)
     {
-        TipoHabitacione::destroy($id);
+        $tipo_habitacion= TipoHabitacione::destroy($id);
+
+        $this->authorize('update', [TipoHabitacione::class, $tipo_habitacion]);
 
         return redirect()->route('tipo_habitaciones.index');
     }

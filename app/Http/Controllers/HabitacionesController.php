@@ -17,6 +17,8 @@ class HabitacionesController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Habitacione::class);
+
         $habitaciones = Habitacione::all();
         
         return view('habitacion.index', compact('habitaciones'));
@@ -29,6 +31,8 @@ class HabitacionesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Habitacione::class);
+
         $tipo_habitaciones = TipoHabitacione::all();
         $estados = ['Activa', 'Inactiva'];
         
@@ -43,6 +47,8 @@ class HabitacionesController extends Controller
      */
     public function store(StoreHabitacionRequest $request)
     {
+        $this->authorize('create', Habitacione::class);
+
         Habitacione::create($request->all());
         
         return redirect()->route('habitaciones.index');
@@ -58,6 +64,8 @@ class HabitacionesController extends Controller
     {
         $habitacion = Habitacione::findOrFail($id);
 
+        $this->authorize('view', [Habitacione::class, $habitacion]);
+
         return view('habitacion.show', compact('habitacion'));
     }
 
@@ -70,6 +78,9 @@ class HabitacionesController extends Controller
     public function edit($id)
     {
         $habitacion = Habitacione::findOrFail($id);
+
+        $this->authorize('update', [Habitacione::class, $habitacion]);
+
         $tipo_habitaciones = TipoHabitacione::all();
         $estados = ['Activa', 'Inactiva'];
         
@@ -86,6 +97,9 @@ class HabitacionesController extends Controller
     public function update(UpdateHabitacionRequest $request, $id)
     {
         $habitacion = Habitacione::findOrFail($id);
+
+        $this->authorize('update', [Habitacione::class, $habitacion]);
+
         $habitacion->letra_numero = $request->letra_numero;
         $habitacion->estado = $request->estado;
         $habitacion->tipo_habitacion_id = $request->tipo_habitacion_id;
@@ -102,7 +116,9 @@ class HabitacionesController extends Controller
      */
     public function destroy($id)
     {
-        Habitacione::destroy($id);
+        $habitacion = Habitacione::destroy($id);
+
+        $this->authorize('delete', [Habitacione::class, $habitacion]);
 
         return redirect()->route('habitaciones.index');
     }

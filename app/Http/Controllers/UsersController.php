@@ -14,6 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::all();
         return view('users.index', compact('users'));
     }
@@ -25,7 +27,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', User::class);
     }
 
     /**
@@ -36,7 +38,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', User::class);
     }
 
     /**
@@ -47,7 +49,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view', [User::class, $user]);
     }
 
     /**
@@ -58,7 +60,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->authorize('update', [User::class, $user]);
     }
 
     /**
@@ -70,7 +72,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->authorize('update', [User::class, $user]);
     }
 
     /**
@@ -81,6 +83,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('delete', [User::class, $user]);
     }
 }

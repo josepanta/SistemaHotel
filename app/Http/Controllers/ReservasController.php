@@ -19,6 +19,8 @@ class ReservasController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Reserva::class);
+
         $reservas = Reserva::all();  
 
         return view('reservar.index',compact('reservas'));
@@ -31,6 +33,8 @@ class ReservasController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Reserva::class);
+
         $users = User::all();
         $habitaciones = Habitacione::all();
         $tipos_reservas = TipoReserva::all();
@@ -47,6 +51,8 @@ class ReservasController extends Controller
      */
     public function store(StoreReservaRequest $request)
     {
+        $this->authorize('create', Reserva::class);
+
         $array = json_decode($request->tabla_array);
 
         $reserva = Reserva::create($request->all());     
@@ -72,6 +78,9 @@ class ReservasController extends Controller
     public function show($id)
     {
         $reserva = Reserva::findOrFail($id);
+
+        $this->authorize('view', [Reserva::class, $reserva]);
+
         $reserva_habitaciones = ReservaHabitacione::where("reserva_id", $id)->get();
 
         $users = User::all();
@@ -91,6 +100,9 @@ class ReservasController extends Controller
     public function edit($id)
     {
         $reserva = Reserva::findOrFail($id);
+
+        $this->authorize('update', [Reserva::class, $reserva]);
+
         $reserva_habitaciones = ReservaHabitacione::where("reserva_id", $id)->get();
 
         $users = User::all();
@@ -110,9 +122,12 @@ class ReservasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $array = json_decode($request->tabla_array);
-
         $reserva = Reserva::findOrFail($id);
+
+        $this->authorize('update', [Reserva::class, $reserva]);
+
+        $array = json_decode($request->tabla_array);
+        
         $reserva->fill($request->all());
         $reserva->save();
 
@@ -139,12 +154,17 @@ class ReservasController extends Controller
     public function destroy($id)
     {
         $reserva = Reserva::findOrFail($id);
+
+        $this->authorize('delete', [Reserva::class, $reserva]);
+
         $reserva->estado = "Inactiva";
         $reserva->save();
     }
 
     public function habitacionesLibres($fecha_inicio, $fecha_fin)
     {
+        $this->authorize('viewAny', Reserva::class);
+
         $habitaciones = Habitacione::all();
         $habitacionesLibres = collect([]); 
 
@@ -166,11 +186,15 @@ class ReservasController extends Controller
     
     public function getCalendario()
     {
+        $this->authorize('viewAny', Reserva::class);
+
         return view('reservar.calendario');
     }
 
     public function getDataCalendario()
     {
+        $this->authorize('viewAny', Reserva::class);
+        
         $reservas_habitaciones = ReservaHabitacione::all();
         $data = collect([]);
 
