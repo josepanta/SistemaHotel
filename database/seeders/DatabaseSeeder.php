@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         Habitacione::factory(5)->create();
         Reserva::factory(5)->create();
         ReservaHabitacione::factory(5)->create();
+
+        $this->call(RoleSeeder::class);
     }
 }
