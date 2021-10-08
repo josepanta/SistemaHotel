@@ -16,8 +16,16 @@ class UsersController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $users = User::all();
         return view('users.index', compact('users'));
+    }
+
+    public function ajaxIndex()
+    {
+        $this->authorize('viewAny', User::class);
+
+        $user = User::all();
+
+        return datatables($user)->toJson();
     }
 
     /**

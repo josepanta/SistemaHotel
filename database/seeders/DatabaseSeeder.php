@@ -28,5 +28,11 @@ class DatabaseSeeder extends Seeder
         ReservaHabitacione::factory(5)->create();
 
         $this->call(RoleSeeder::class);
+
+        User::create([
+            'name' => 'Jose Luis Panta Acosta',
+            'email' => 'josepanta63@gmail.com',
+            'password' => bcrypt('pokemon01'),
+        ])->assignRole('admin');
     }
 }

@@ -18,8 +18,16 @@ class TipoReservasController extends Controller
     {
         $this->authorize('viewAny', TipoReserva::class);
 
-        $tipo_reservas = TipoReserva::all();
         return view('reservar.tipo_reservar.index', compact('tipo_reservas'));
+    }
+
+    public function ajaxIndex()
+    {
+        $this->authorize('viewAny', TipoReserva::class);
+
+        $tipo_reserva = TipoReserva::all();
+
+        return datatables($tipo_reserva)->toJson();
     }
 
     /**

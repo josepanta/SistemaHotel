@@ -18,9 +18,16 @@ class TipoHabitacionesController extends Controller
     {
         $this->authorize('viewAny', TipoHabitacione::class);
 
+        return view('habitacion.tipo_habitacion.index');
+    }
+
+    public function ajaxIndex()
+    {
+        $this->authorize('viewAny', TipoHabitacione::class);
+
         $tipo_habitaciones = TipoHabitacione::all();
 
-        return view('habitacion.tipo_habitacion.index', compact('tipo_habitaciones'));
+        return datatables($tipo_habitaciones)->toJson();
     }
 
     /**

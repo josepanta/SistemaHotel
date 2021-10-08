@@ -49,22 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($habitaciones as $habitacion)
-                                    <tr>
-                                        <td>{{ $habitacion->letra_numero }}</td>
-                                        <td>{{ $habitacion->tipo_habitacion->nombre }}</td>
-                                        <td>{{ $habitacion->tipo_habitacion->precio }}</td>
-                                        <td>{{ $habitacion->estado }}</td>
-                                        <td>
-                                          <div class="row justify-content-between">
-                                            <input id="id" type="hidden" value="{{ $habitacion->id }}">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                @endforeach 
+
                             </tfoot>
                         </table>
                     </div>
@@ -99,7 +84,30 @@
 <script>
   $(function () {
     $("#habitaciones_table").DataTable({
-      "ordering": false,
+      "ajax": "{{ route('habitaciones.ajaxIndex') }}",
+      "deferRender": true,
+      "columns": [
+        { data: 'letra_numero' },
+        { data: 'tipo_habitacion.nombre' },
+        { data: 'tipo_habitacion.precio' },
+        { 
+          data: 'estado',
+          render: function(data){
+            if(data == "Activa"){
+              return "<span class='badge badge-info w-100'>"+data+"</span>";
+            }else{
+              return "<span class='badge badge-danger w-100'>"+data+"</span>";
+            }
+          }  
+        },
+        {
+          data: null,
+          render: function(data){
+            return "<div class='row justify-content-between'><input id='id' type='hidden' value='"+data.id+"'><button type='button' class='btn col-md-4 btn-success btn-sm' onclick='javascript:editar($(this))'><i class='fa fa-edit'></i >Editar</button><button type='button' class='btn col-md-3 btn-secondary btn-sm' onclick='javascript:mostrar($(this))'><i class='fa fa-eye'></i> Ver</button><button type='button' class='btn col-md-4 btn-danger btn-sm' onclick='javascript:eliminar($(this))'><i class='fa fa-trash'></i> Eliminar</button></div>";
+          }
+        }
+      ],
+      "ordering": true,
       "responsive": true,
       "pageLength": 5,
       "lengthChange": false,

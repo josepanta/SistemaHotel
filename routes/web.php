@@ -36,11 +36,16 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/reservas/habitacionesLibres/{fecha_inicio}/{fecha_fin}', [ReservasController::class, 'habitacionesLibres'])->name('reservas.habitacionesLibres');
     Route::resource('/reservas', ReservasController::class );
 
+    Route::get('/habitaciones/ajaxIndex', [HabitacionesController::class, 'ajaxIndex'])->name('habitaciones.ajaxIndex');
     Route::resource('/habitaciones', HabitacionesController::class);
-    Route::resource('/tipo_reservas', TipoReservasController::class);
-    Route::resource('/tipo_habitaciones', TipoHabitacionesController::class);
-    Route::resource('/tipo_users', TipoUsersController::class);
 
+    Route::get('/tipo_reservas/ajaxIndex', [TipoReservasController::class, 'ajaxIndex'])->name('tipo_reservas.ajaxIndex');
+    Route::resource('/tipo_reservas', TipoReservasController::class);
+
+    Route::get('/tipo_habitaciones/ajaxIndex', [TipoHabitacionesController::class, 'ajaxIndex'])->name('tipo_habitaciones.ajaxIndex');
+    Route::resource('/tipo_habitaciones', TipoHabitacionesController::class);
+
+    Route::get('/users/ajaxIndex', [UsersController::class, 'ajaxIndex'])->name('users.ajaxIndex');
     Route::resource('/users', UsersController::class);
     
 });

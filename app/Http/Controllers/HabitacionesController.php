@@ -6,7 +6,7 @@ use App\Http\Requests\StoreHabitacionRequest;
 use App\Http\Requests\UpdateHabitacionRequest;
 use App\Models\Habitacione;
 use App\Models\TipoHabitacione;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HabitacionesController extends Controller
 {
@@ -19,9 +19,16 @@ class HabitacionesController extends Controller
     {
         $this->authorize('viewAny', Habitacione::class);
 
-        $habitaciones = Habitacione::all();
-        
-        return view('habitacion.index', compact('habitaciones'));
+        return view('habitacion.index');
+    }
+
+    public function ajaxIndex()
+    {
+        $this->authorize('viewAny', Habitacione::class);
+
+        $habitaciones = Habitacione::with('tipo_habitacion')->get();
+
+        return datatables($habitaciones)->toJson();
     }
 
     /**

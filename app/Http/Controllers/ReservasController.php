@@ -21,9 +21,16 @@ class ReservasController extends Controller
     {
         $this->authorize('viewAny', Reserva::class);
 
-        $reservas = Reserva::all();  
-
         return view('reservar.index',compact('reservas'));
+    }
+
+    public function ajaxIndex()
+    {
+        $this->authorize('viewAny', Reserva::class);
+
+        $reservas = Reserva::all();
+
+        return datatables($reservas)->toJson();
     }
 
     /**
