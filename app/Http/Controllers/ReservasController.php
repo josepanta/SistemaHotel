@@ -21,14 +21,14 @@ class ReservasController extends Controller
     {
         $this->authorize('viewAny', Reserva::class);
 
-        return view('reservar.index',compact('reservas'));
+        return view('reservar.index');
     }
 
     public function ajaxIndex()
     {
         $this->authorize('viewAny', Reserva::class);
 
-        $reservas = Reserva::all();
+        $reservas = Reserva::with('user', 'tipo_reserva')->get();
 
         return datatables($reservas)->toJson();
     }

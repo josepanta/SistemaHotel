@@ -123,10 +123,11 @@ class HabitacionesController extends Controller
      */
     public function destroy($id)
     {
-        $habitacion = Habitacione::destroy($id);
+        $habitacion = Habitacione::findOrFail($id);
 
         $this->authorize('delete', [Habitacione::class, $habitacion]);
 
-        return redirect()->route('habitaciones.index');
+        $habitacion->estado = "Inactiva";
+        $habitacion->save();
     }
 }

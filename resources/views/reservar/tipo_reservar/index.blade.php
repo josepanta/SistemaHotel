@@ -47,20 +47,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($tipo_reservas as $tipo_reserva)
-                                    <tr>
-                                        <td>{{ $tipo_reserva->nombre }}</td>
-                                        <td>{{ $tipo_reserva->descripcion }}</td>
-                                        <td>
-                                          <div class="row justify-content-between">
-                                            <input id="id" type="hidden" value="{{ $tipo_reserva->id }}">
-                                            <button id="editar" type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
-                                            <button id="ver" type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
-                                            <button id="eliminar" type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                @endforeach 
+                                
                             </tfoot>
                         </table>
                     </div>
@@ -96,7 +83,19 @@
   //DataTable
   $(function () {
     $("#tipos_reservas_table").DataTable({
-      "ordering": false,
+      "ajax": "{{ route('tipo_habitaciones.ajaxIndex') }}",
+      "deferRender": true,
+      "columns": [
+        { data: 'nombre' },
+        { data: 'descripcion' },
+        {
+          data: null,
+          render: function(data){
+            return "<div class='row justify-content-between'><input id='id' type='hidden' value='"+data.id+"'><button type='button' class='btn col-md-4 btn-success btn-sm' onclick='javascript:editar($(this))'><i class='fa fa-edit'></i >Editar</button><button type='button' class='btn col-md-3 btn-secondary btn-sm' onclick='javascript:mostrar($(this))'><i class='fa fa-eye'></i> Ver</button><button type='button' class='btn col-md-4 btn-danger btn-sm' onclick='javascript:eliminar($(this))'><i class='fa fa-trash'></i> Eliminar</button></div>";
+          }
+        }
+      ],
+      "ordering": true,
       "responsive": true,
       "pageLength": 5,
       "lengthChange": false,

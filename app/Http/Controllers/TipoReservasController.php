@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTipoReservaRequest;
 use App\Http\Requests\UpdateTipoReservaRequest;
 use App\Models\TipoReserva;
-use Illuminate\Http\Request;
 
 class TipoReservasController extends Controller
 {
@@ -18,7 +17,7 @@ class TipoReservasController extends Controller
     {
         $this->authorize('viewAny', TipoReserva::class);
 
-        return view('reservar.tipo_reservar.index', compact('tipo_reservas'));
+        return view('reservar.tipo_reservar.index');
     }
 
     public function ajaxIndex()

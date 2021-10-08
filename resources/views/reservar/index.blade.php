@@ -41,28 +41,15 @@
                         <table id="reservas_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Estado</th>
+                                    <th>Numero</th>
+                                    <th>Usuario</th>
                                     <th>Tipo</th>
+                                    <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($reservas as $reserva)
-                                    <tr>
-                                        <td>{{ $reserva->id }}</td>
-                                        <td>{{ $reserva->estado }}</td>
-                                        <td>{{ $reserva->tipo_reserva->nombre }}</td>
-                                        <td>
-                                          <div class="row justify-content-between">
-                                            <input id="id" type="hidden" value="{{ $reserva->id }}">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:editar($(this))"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm" onclick="javascript:mostrar($(this))"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm" onclick="javascript:eliminar($(this))"><i class="fa fa-trash"></i> Eliminar</button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                @endforeach 
+                                
                             </tfoot>
                         </table>
                     </div>
@@ -98,7 +85,39 @@
   //DataTable
   $(function () {
     $("#reservas_table").DataTable({
-      "ordering": false,
+      "ajax": "{{ route('reservas.ajaxIndex') }}",
+      "deferRender": true,
+      "columns": [
+        { data: 'id' },
+        { data: 'user.name' },
+        { data: 'tipo_reserva.nombre' },
+        { 
+          data: 'estado',
+          render: function(data){
+            switch(data){
+              case "Reservada":
+                return "<span class='badge w-100' style='background-color:#AF7AC5'>"+data+"</span>";
+                break;
+              case "Pagada":
+                return "<span class='badge w-100' style='background-color:#3498DB'>"+data+"</span>";
+                break;
+              case "Cancelada":
+                return "<span class='badge w-100' style='background-color:#E74C3C'>"+data+"</span>";
+                break;
+              case "Inactiva":
+                return "<span class='badge w-100' style='background-color:#E67E22'>"+data+"</span>";
+                break;
+            }
+          }  
+        },
+        {
+          data: null,
+          render: function(data){
+            return "<div class='row justify-content-between'><input id='id' type='hidden' value='"+data.id+"'><button type='button' class='btn col-md-4 btn-success btn-sm' onclick='javascript:editar($(this))'><i class='fa fa-edit'></i >Editar</button><button type='button' class='btn col-md-3 btn-secondary btn-sm' onclick='javascript:mostrar($(this))'><i class='fa fa-eye'></i> Ver</button><button type='button' class='btn col-md-4 btn-danger btn-sm' onclick='javascript:eliminar($(this))'><i class='fa fa-trash'></i> Eliminar</button></div>";
+          }
+        }
+      ],
+      "ordering": true,
       "responsive": true,
       "pageLength": 5,
       "lengthChange": false,

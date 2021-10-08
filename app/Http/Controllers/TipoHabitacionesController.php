@@ -116,10 +116,10 @@ class TipoHabitacionesController extends Controller
      */
     public function destroy($id)
     {
-        $tipo_habitacion= TipoHabitacione::destroy($id);
+        $tipo_habitacion= TipoHabitacione::findOrFail($id);
 
         $this->authorize('update', [TipoHabitacione::class, $tipo_habitacion]);
-
-        return redirect()->route('tipo_habitaciones.index');
+        
+        $tipo_habitacion->delete();
     }
 }
