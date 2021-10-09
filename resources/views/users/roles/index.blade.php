@@ -13,12 +13,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Tipo de Usuarios</h1>
+            <h1 class="m-0">Roles</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-              <li class="breadcrumb-item active">Tipo de Usuarios</li>
+              <li class="breadcrumb-item active">Roles</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -34,34 +34,20 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Lista de Usuarios</h3>
+                        <h3 class="card-title">Lista de Roles</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="tipo_users_table" class="table table-bordered table-striped">
+                        <table id="roles_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Descripcion</th>
+                                    <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($tipo_users as $tipo_user)
-                                    <tr>
-                                        <td>{{ $tipo_user->id }}</td>
-                                        <td>{{ $tipo_user->nombre }}</td>
-                                        <td>{{ $tipo_user->descripcion }}</td>
-                                        <td>
-                                          <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                @endforeach 
+                                 
                             </tfoot>
                         </table>
                     </div>
@@ -95,8 +81,30 @@
 
 <script>
   $(function () {
-    $("#tipo_users_table").DataTable({
-      "ordering": false,
+    $("#roles_table").DataTable({
+      "ajax": "{{ route('roles.ajaxIndex') }}",
+      "deferRender": true,
+      "columns": [
+        { data: 'name' },
+        { 
+          data: 'estado',
+          render: function(data){
+            if(data == "ACTIVO"){
+              return "<span class='badge badge-info w-100'>"+data+"</span>";
+            }else{
+              return "<span class='badge badge-danger w-100'>"+data+"</span>";
+            }
+          }  
+        },
+        {
+          data: null,
+          class: "row justify-content-between",
+          render: function(data){
+            return "<button type='button' class='btn col-md-3 btn-success btn-sm' onclick='javascript:editar("+data.id+")'><i class='fa fa-edit'></i ></button><button type='button' class='btn col-md-3 btn-secondary btn-sm' onclick='javascript:mostrar("+data.id+")'><i class='fa fa-eye'></i></button><button type='button' class='btn col-md-3 btn-danger btn-sm' onclick='javascript:eliminar("+data.id+")'><i class='fa fa-trash'></i></button>";
+          }
+        }
+      ],
+      "ordering": true,
       "responsive": true,
       "pageLength": 5,
       "lengthChange": false,
@@ -104,7 +112,10 @@
       "searching": true,
       "buttons": [
         {
-          'text': "Agregar"
+          'text': "Agregar",
+          'action': function(){
+            window.location.href="{{ route('roles.create') }}";
+          }
         }
         ,"copy", "csv", "excel", "pdf", "print", "colvis"
       ],
@@ -112,7 +123,7 @@
         "url": "{{ asset('plugins/language/spanish.json') }}"
       },
       "initComplete": function(){
-        $("#tipo_users_table").DataTable().buttons().container().appendTo('#tipo_users_table_wrapper .col-md-6:eq(0)')
+        $("#roles_table").DataTable().buttons().container().appendTo('#roles_table_wrapper .col-md-6:eq(0)')
       }
     });
   });
@@ -123,7 +134,41 @@
   $(document).ready(function(){
     $("#nav_item_users").addClass("menu-open");
     $("#nav_item_title_users").addClass("active");
-    $("#nav_item_option_tipo_users").addClass("active");
+    $("#nav_item_option_roles_users").addClass("active");
   }); 
+</script>
+
+<script>
+  //Edit
+  function editar(id){
+    var url = '{{ route("roles.edit", ":id") }}'; 
+    url = url.replace(':id', id);
+
+    window.location.href = url;
+  }
+
+  //Show
+  function mostrar(id){
+    var url = '{{ route("roles.show", ":id") }}';
+    url = url.replace(":id", id);
+
+    window.location.href = url;
+  }
+
+  //Delete
+  function eliminar(id){
+    var url = '{{ route("roles.destroy", ":id") }}';
+    url = url.replace(":id", id);
+
+    $.ajax({
+      url: url,
+      type: "post",
+      data: {
+        '_method':'delete', '_token': '{{ csrf_token() }}'
+      }
+    }).done(function(){
+      window.location.href = "{{ route('roles.index') }}";
+    });
+  }
 </script>
 @endsection

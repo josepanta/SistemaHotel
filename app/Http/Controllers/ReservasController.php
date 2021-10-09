@@ -177,8 +177,9 @@ class ReservasController extends Controller
 
         foreach($habitaciones as $habitacion){
             $reservas = ReservaHabitacione::where('habitacion_id', $habitacion->id)->get();
+
+            $cont = 0;
             foreach($reservas as $reserva){
-                $cont = 0;
                 if($reserva->fecha_fin < $fecha_inicio || $reserva->fecha_inicio > $fecha_fin){
                     $cont++;
                 }

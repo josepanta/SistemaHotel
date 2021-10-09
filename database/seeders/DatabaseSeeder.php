@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Jose Luis Panta Acosta',
             'email' => 'josepanta63@gmail.com',
             'password' => bcrypt('pokemon01'),
+            'estado' => 'Activa'
         ])->assignRole('admin');
     }
 }

@@ -101,7 +101,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a id="nav_item_option_tipo_users" href="" class="nav-link">
+                                        <a id="nav_item_option_tipo_users" href="{{ route('roles.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Roles</p>
                                         </a>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -16,7 +19,7 @@ class UsersController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        return view('users.index', compact('users'));
+        return view('users.index');
     }
 
     public function ajaxIndex()
@@ -36,6 +39,10 @@ class UsersController extends Controller
     public function create()
     {
         $this->authorize('create', User::class);
+
+        $roles = Role::all();
+    
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -44,9 +51,18 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $this->authorize('create', User::class);
+
+        $request->merge([
+            'estado' => 'Activa',
+            'password'=>Hash::make($request->password)
+        ]);
+
+        User::create($request->all())->assignRole($request->rol_id);
+        
+        return redirect()->route('users.index');
     }
 
     /**
@@ -57,7 +73,11 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        $user = User::findOrFail($id);
+
         $this->authorize('view', [User::class, $user]);
+
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -68,7 +88,14 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $user = User::findOrFail($id);
+
         $this->authorize('update', [User::class, $user]);
+
+        $estados = ['Activa','Inactiva'];
+        $roles = Role::all();
+
+        return view('users.edit',compact('roles', 'estados', 'user'));
     }
 
     /**
@@ -78,9 +105,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $this->authorize('update', [User::class, $user]);
+
+        $user->nombres = $request->name;
+        $user->email = $request->email;
+        $user->estado = $request->estado;
+       
+        $user->save() ;
+        $user->syncRoles([$request->rol_id]);
+        
+        return redirect()->route('users.index');
     }
 
     /**
@@ -91,6 +129,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        $user=User::findOrFail($id);
+
         $this->authorize('delete', [User::class, $user]);
+
+        $user->estado="Inactiva";
+        $user->save();
     }
 }

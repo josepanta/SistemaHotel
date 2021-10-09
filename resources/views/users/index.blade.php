@@ -38,30 +38,17 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="users_table" class="table table-bordered table-striped">
+                        <table id="usuarios_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
+                                    <th>Usuario</th>
                                     <th>Email</th>
+                                    <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
-                                    <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>
-                                          <div class="row justify-content-between">
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-edit"></i >Editar</button>
-                                            <button type="button" class="btn col-md-3 btn-primary btn-sm"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn col-md-4 btn-primary btn-sm"><i class="fa fa-trash"></i> Eliminar</button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                @endforeach 
+                                 
                             </tfoot>
                         </table>
                     </div>
@@ -95,8 +82,31 @@
 
 <script>
   $(function () {
-    $("#users_table").DataTable({
-      "ordering": false,
+    $("#usuarios_table").DataTable({
+      "ajax": "{{ route('users.ajaxIndex') }}",
+      "deferRender": true,
+      "columns": [
+        { data: 'name' },
+        { data: 'email' },
+        { 
+          data: 'estado',
+          render: function(data){
+            if(data == "Activa"){
+              return "<span class='badge badge-info w-100'>"+data+"</span>";
+            }else{
+              return "<span class='badge badge-danger w-100'>"+data+"</span>";
+            }
+          }  
+        },
+        {
+          data: null,
+          class: "row justify-content-between",
+          render: function(data){
+            return "<button type='button' class='btn col-md-3 btn-success btn-sm' onclick='javascript:editar("+data.id+")'><i class='fa fa-edit'></i ></button><button type='button' class='btn col-md-3 btn-secondary btn-sm' onclick='javascript:mostrar("+data.id+")'><i class='fa fa-eye'></i></button><button type='button' class='btn col-md-3 btn-danger btn-sm' onclick='javascript:eliminar("+data.id+")'><i class='fa fa-trash'></i></button>";
+          }
+        }
+      ],
+      "ordering": true,
       "responsive": true,
       "pageLength": 5,
       "lengthChange": false,
@@ -104,7 +114,10 @@
       "searching": true,
       "buttons": [
         {
-          'text': "Agregar"
+          'text': "Agregar",
+          'action': function(){
+            window.location.href="{{ route('users.create') }}";
+          }
         }
         ,"copy", "csv", "excel", "pdf", "print", "colvis"
       ],
@@ -112,7 +125,7 @@
         "url": "{{ asset('plugins/language/spanish.json') }}"
       },
       "initComplete": function(){
-        $("#users_table").DataTable().buttons().container().appendTo('#users_table_wrapper .col-md-6:eq(0)')
+        $("#usuarios_table").DataTable().buttons().container().appendTo('#usuarios_table_wrapper .col-md-6:eq(0)')
       }
     });
   });
@@ -125,5 +138,39 @@
     $("#nav_item_title_users").addClass("active");
     $("#nav_item_option_gestionar_users").addClass("active");
   }); 
+</script>
+
+<script>
+  //Edit
+  function editar(id){
+    var url = '{{ route("users.edit", ":id") }}'; 
+    url = url.replace(':id', id);
+
+    window.location.href = url;
+  }
+
+  //Show
+  function mostrar(id){
+    var url = '{{ route("users.show", ":id") }}';
+    url = url.replace(":id", id);
+
+    window.location.href = url;
+  }
+
+  //Delete
+  function eliminar(id){
+    var url = '{{ route("users.destroy", ":id") }}';
+    url = url.replace(":id", id);
+
+    $.ajax({
+      url: url,
+      type: "post",
+      data: {
+        '_method':'delete', '_token': '{{ csrf_token() }}'
+      }
+    }).done(function(){
+      window.location.href = "{{ route('users.index') }}";
+    });
+  }
 </script>
 @endsection

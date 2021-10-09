@@ -1,10 +1,10 @@
 <?php
 
-use  App\Http\Controllers\ReservasController;
+use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\HabitacionesController;
 use App\Http\Controllers\TipoHabitacionesController;
 use App\Http\Controllers\TipoReservasController;
-use App\Http\Controllers\TipoUsersController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,5 +48,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/users/ajaxIndex', [UsersController::class, 'ajaxIndex'])->name('users.ajaxIndex');
     Route::resource('/users', UsersController::class);
-    
+
+    Route::get('roles/ajaxIndex', [RolesController::class, 'ajaxIndex'])->name('roles.ajaxIndex');
+    Route::resource('roles', RolesController::class);
 });
