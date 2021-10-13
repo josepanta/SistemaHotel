@@ -18,7 +18,7 @@ class ReservaPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasRole('admin')){
+        if($user->hasRole('admin') || $user->hasRole('user')){
             return true;
         }
     }
@@ -46,6 +46,13 @@ class ReservaPolicy
     public function create(User $user)
     {
         if($user->hasRole('admin')){
+            return true;
+        }
+    }
+
+    public function createUser(User $user)
+    {
+        if($user->hasRole('user')){
             return true;
         }
     }

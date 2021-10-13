@@ -85,6 +85,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                                 with font-awesome or any other icon font library -->
+                            @if(Auth::user()->hasRole('admin'))
                             <li id="nav_item_users" class="nav-item">
                                 <a id="nav_item_title_users" href="#" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>
@@ -160,6 +161,37 @@
                                     </li>
                                 </ul>
                             </li>
+                            @elseif(Auth::user()->hasRole('user'))
+                            <li id="nav_item_reservas" class="nav-item">
+                                <a id="nav_item_title_reservas" href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar"></i>
+                                    <p>
+                                        Reservas
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="nav_item_option_crear_reserva" href="{{ route('reservas.createUser') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Crear Reserva</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="nav_item_option_gestionar_reservas" href="{{ route('reservas.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Mis Reservas</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="nav_item_option_calendario" href="{{ route('reservas.calendario') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Calendario</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @endif
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->

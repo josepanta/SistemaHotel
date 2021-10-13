@@ -7,8 +7,10 @@ use App\Models\Habitacione;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
 use App\Models\ReservaHabitacione;
+use App\Models\TipoHabitacione;
 use App\Models\TipoReserva;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ReservasController extends Controller
 {
@@ -28,7 +30,10 @@ class ReservasController extends Controller
     {
         $this->authorize('viewAny', Reserva::class);
 
+        if (Auth::user()->hasRole('admin'))
         $reservas = Reserva::with('user', 'tipo_reserva')->get();
+        elseif (Auth::user()->hasRole('user'))
+        $reservas = Reserva::where('user_id', Auth::user()->id)->with('user', 'tipo_reserva')->get();
 
         return datatables($reservas)->toJson();
     }
@@ -48,6 +53,16 @@ class ReservasController extends Controller
         $estados = ['Reservada', 'Pagada', 'Cancelada', 'Inactiva']; 
 
         return view('reservar.create', compact('users', 'habitaciones', 'estados', 'tipos_reservas'));
+    }
+
+    public function createUser()
+    {
+        $this->authorize('createUser', Reserva::class);
+
+        $tipos_reservas = TipoReserva::all();
+        $tipos_habitaciones = TipoHabitacione::all();
+
+        return view('reservar.createUser', compact('tipos_reservas', 'tipos_habitaciones'));
     }
 
     /**
@@ -172,24 +187,14 @@ class ReservasController extends Controller
     {
         $this->authorize('viewAny', Reserva::class);
 
-        $habitaciones = Habitacione::all();
-        $habitacionesLibres = collect([]); 
-
-        foreach($habitaciones as $habitacion){
-            $reservas = ReservaHabitacione::where('habitacion_id', $habitacion->id)->get();
-
-            $cont = 0;
-            foreach($reservas as $reserva){
-                if($reserva->fecha_fin < $fecha_inicio || $reserva->fecha_inicio > $fecha_fin){
-                    $cont++;
-                }
-            }
-            if($cont != 0){
-                $habitacionesLibres->push($habitacion);
-            } 
-        }
-
-        return response()->json($habitacionesLibres);
+        $habitaciones = Habitacione::all()->filter(function($habitacion) use ($fecha_inicio, $fecha_fin) {
+            $reservas = ReservaHabitacione::where('habitacion_id', $habitacion->id)->get()->filter(function($reserva) use ($fecha_inicio, $fecha_fin){
+                return $reserva->fecha_fin < $fecha_inicio && $reserva->fecha_inicio > $fecha_fin;
+            });
+            return $reservas->count() == 0;
+        });
+        
+        return response()->json($habitaciones);
     }
     
     public function getCalendario()
@@ -203,7 +208,13 @@ class ReservasController extends Controller
     {
         $this->authorize('viewAny', Reserva::class);
         
+        if (Auth::user()->hasRole('admin'))
         $reservas_habitaciones = ReservaHabitacione::all();
+        elseif (Auth::user()->hasRole('user'))
+        $reservas_habitaciones = ReservaHabitacione::whereHas('reserva', function($query){
+            return $query->where('user_id', Auth::user()->id);
+        })->get();
+
         $data = collect([]);
 
         //['Reservada', 'Pagada', 'Cancelada', 'Inactiva']
